@@ -126,13 +126,12 @@ def main():
             print("Error try again!")
             continue
         if check_has_the_letter_already_been_typed(letter, letter_list) == True: # Checks whether the entered character has not already been entered
-            if update_of_the_hidden_word_by_letter(the_word, the_hidden_word, letter) == True:
-                continue
-            else:
-                attempts = decrement_the_counter_in_case_of_a_non_existent_character(attempts)
-        else:
-            print()
-            print("The letter has already been chosen before!")
-    print_game_over(the_hidden_word, the_word)
+            if update_of_the_hidden_word_by_letter(the_word, the_hidden_word, letter) == True: # Updating the letter in the hidden word
+                continue # Back to typing another letter
+            else: # If the letter does not exist in the word
+                attempts = decrement_the_counter_in_case_of_a_non_existent_character(attempts) # Add 1 to the counter that counts the incorrect attempts.
+        else: # If the word has already been typed and is in the list of typed letters
+            print("\nThe letter has already been chosen before!")
+    print_game_over(the_hidden_word, the_word) # Prints of the end of the game to win and lose
 
-main()
+main() # Enabling the executive function
