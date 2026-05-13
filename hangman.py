@@ -77,8 +77,10 @@ def user_input_a_character():
 
 def check_user_input_for_correctness(letter):
     """Checking the validity of the signal entered by the user"""
-    if letter >= "a" and letter <= "z" and len(letter) == 1:
-        return letter
+    if letter >= "a" and letter <= "z" and len(letter) == 1 and letter.isalpha():
+        return True
+    else:
+        return False
 
 def check_has_the_letter_already_been_typed(letter, letter_list):
     """Checking whether the signal has already been entered before"""
@@ -88,17 +90,14 @@ def check_has_the_letter_already_been_typed(letter, letter_list):
     else:
         return False
 
-def check_if_the_character_matches_the_word(the_hidden_word, letter):
-    """Checking whether the letter has not already been entered in a word"""
-    if letter not in the_hidden_word:
-        return letter
-
 def update_of_the_hidden_word_by_letter(the_word, the_hidden_word, letter):
     """Updating the hidden word with the typed letter"""
-    for item in range(len(the_word)):
-        if the_word[item] == letter:
-            the_hidden_word[item] = letter
-    return the_hidden_word
+    if letter in the_word:
+        for item in range(len(the_word)):
+            if the_word[item] == letter:
+                the_hidden_word[item] = letter
+        return True
+    return False
 
 def decrement_the_counter_in_case_of_a_non_existent_character(attempts):
     """Adding 1 to the counter of failed attempts"""
@@ -115,19 +114,25 @@ def print_game_over(the_hidden_word, the_word):
 
 def main():
     """A function that manages the game in order"""
-    the_word = random_word_selection()
-    attempts = init_attempts()
-    letter_list = []
-    the_hidden_word = underscore_instead_of_a_word(the_word)
-    while attempts <= NUMBER_OF_ATTEMPTS and "_" in the_hidden_word:
+    the_word = random_word_selection() # Choosing the random word
+    attempts = init_attempts() # Setting the initial number of attempts to 0
+    letter_list = [] # Create a list that stores all the letters that have already been entered
+    the_hidden_word = underscore_instead_of_a_word(the_word) # Creating the hidden word
+    while attempts < NUMBER_OF_ATTEMPTS and "_" in the_hidden_word: # The loop - as long as the entire word is not completed and we have not reached the maximum number of attempts
         print_status_now(the_hidden_word, attempts, NUMBER_OF_ATTEMPTS)
-        letter = user_input_a_character()
-        check_user_input_for_correctness(letter)
-        if check_has_the_letter_already_been_typed(letter, letter_list) == True:
-            if check_if_the_character_matches_the_word(the_hidden_word, letter):
-                update_of_the_hidden_word_by_letter(the_word, the_hidden_word, letter)
+        letter = user_input_a_character() # Request a signal from the user
+        checking = check_user_input_for_correctness(letter) # Checks the character's integrity
+        if checking == False:
+            print("Error try again!")
+            continue
+        if check_has_the_letter_already_been_typed(letter, letter_list) == True: # Checks whether the entered character has not already been entered
+            if update_of_the_hidden_word_by_letter(the_word, the_hidden_word, letter) == True:
                 continue
-        attempts = decrement_the_counter_in_case_of_a_non_existent_character(attempts)
+            else:
+                attempts = decrement_the_counter_in_case_of_a_non_existent_character(attempts)
+        else:
+            print()
+            print("The letter has already been chosen before!")
     print_game_over(the_hidden_word, the_word)
 
 main()
