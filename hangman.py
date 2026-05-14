@@ -139,14 +139,14 @@ def main():
         letter = user_input_a_character()  # Request a signal from the user
         checking = check_user_input_for_correctness(letter)  # Checks the character's integrity
 
-        if checking == False:
+        if not checking:
             print("Error try again!")
             continue
 
         # Checks whether the entered character has not already been entered
-        elif check_has_the_letter_already_been_typed(letter, letter_list) == True:
+        elif check_has_the_letter_already_been_typed(letter, letter_list):
             # Updating the letter in the hidden word
-            if update_of_the_hidden_word_by_letter(the_word, the_hidden_word, letter) == True:
+            if update_of_the_hidden_word_by_letter(the_word, the_hidden_word, letter):
                 continue  # Back to typing another letter
             else:  # If the letter does not exist in the word
                 # Add 1 to the counter that counts the incorrect attempts.
