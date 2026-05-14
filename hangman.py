@@ -1,3 +1,6 @@
+# Link to the project's GitHub:
+# https://github.com/dashiur1000/hangman
+
 import random
 
 NUMBER_OF_ATTEMPTS = 10 # Maximum number of attempts
